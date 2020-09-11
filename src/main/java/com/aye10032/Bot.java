@@ -7,8 +7,10 @@ import net.dv8tion.jda.api.AccountType;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.entities.Activity;
+import net.dv8tion.jda.api.utils.TimeUtil;
 
 import javax.security.auth.login.LoginException;
+import java.util.concurrent.TimeUnit;
 
 public class Bot {
 
@@ -31,6 +33,6 @@ public class Bot {
         long enable = System.currentTimeMillis();
         new Bot(args[0], args[1]);
 
-        System.out.println("bot enabled in" + (System.currentTimeMillis() - enable) + "ms");
+        System.out.println("bot enabled in" + TimeUnit.MILLISECONDS.toSeconds(System.currentTimeMillis() - enable) + "ms");
     }
 }
