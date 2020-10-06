@@ -46,6 +46,7 @@ public class BiliUtil {
     }
 
     public void update() {
+        list_map.clear();
         int i = 1;
         boolean is_new = true;
         Date now = new Date();
@@ -56,6 +57,8 @@ public class BiliUtil {
                 for (Map.Entry<String, Long> entry : map.entrySet()) {
                     long l = now.getTime() - new Date(entry.getValue()).getTime();
                     long min = ((l / (60 * 1000)));
+
+                    System.out.println(min + entry.getKey());
 
                     if (min <= 30) {
                         add_video(entry.getKey(), entry.getValue());
@@ -79,7 +82,7 @@ public class BiliUtil {
         try {
             String body = "";
             Request request = new Request.Builder()
-                    .url("http://api.bilibili.com/x/space/arc/search?mid=1311124&ps=5&pn=" + page)
+                    .url("http://api.bilibili.com/x/space/arc/search?mid=222103174&ps=5&pn=" + page)
                     .method("GET", null)
                     .build();
             Response response = client.newCall(request).execute();
