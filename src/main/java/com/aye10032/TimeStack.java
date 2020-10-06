@@ -26,6 +26,7 @@ public class TimeStack extends Thread {
             try {
                 biliUtil.update();
                 map = biliUtil.getList_map();
+                System.out.println(map.size());
                 if (!map.isEmpty()) {
                     for (Map.Entry<String, Long> entry : map.entrySet()) {
                         jda.getTextChannelById(753968932519411784L).sendMessage(entry.getKey()).queue();

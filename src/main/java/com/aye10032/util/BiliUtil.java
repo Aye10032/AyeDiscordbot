@@ -24,20 +24,20 @@ public class BiliUtil {
 
     private Map<String, Long> list_map;
 
-//    public static void main(String[] args) {
-////        Date date = new Date(TimeUnit.SECONDS.toMillis(1601732156));
-////        SimpleDateFormat ft = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
-////
-////        System.out.println(ft.format(date));
-////        Date now = new Date();
-////        long l = now.getTime() - date.getTime();
-////        long min = ((l / (60 * 1000)));
-////        System.out.println(min);
-//        BiliUtil biliUtil = new BiliUtil();
-//        biliUtil.update();
-//        Map<String, Long> map = biliUtil.getList_map();
-//        System.out.println(map.isEmpty());
-//    }
+    public static void main(String[] args) {
+//        Date date = new Date(TimeUnit.SECONDS.toMillis(1601732156));
+//        SimpleDateFormat ft = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+//
+//        System.out.println(ft.format(date));
+//        Date now = new Date();
+//        long l = now.getTime() - date.getTime();
+//        long min = ((l / (60 * 1000)));
+//        System.out.println(min);
+        BiliUtil biliUtil = new BiliUtil();
+        biliUtil.update();
+        Map<String, Long> map = biliUtil.getList_map();
+        System.out.println(map.size());
+    }
 
     public BiliUtil() {
         client = new OkHttpClient().newBuilder()
@@ -48,28 +48,30 @@ public class BiliUtil {
     public void update() {
         list_map.clear();
         int i = 1;
+        int count = 0;
         boolean is_new = true;
         Date now = new Date();
         while (is_new) {
             Map<String, Long> map = update(i);
-            System.out.println(map.size());
+//            System.out.println(map.size());
             if (!map.isEmpty()) {
                 for (Map.Entry<String, Long> entry : map.entrySet()) {
                     long l = now.getTime() - new Date(entry.getValue()).getTime();
                     long min = ((l / (60 * 1000)));
 
-                    System.out.println(min + entry.getKey());
+//                    System.out.println(min + entry.getKey());
 
                     if (min <= 30) {
                         add_video(entry.getKey(), entry.getValue());
-                    } else {
-                        is_new = false;
-                        i = 1;
-                        break;
                     }
+                    count++;
                 }
-                i++;
-            }else {
+                if (count == list_map.size()) {
+                    i++;
+                }else {
+                    is_new = false;
+                }
+            } else {
                 is_new = false;
                 i = 1;
                 break;
@@ -82,12 +84,12 @@ public class BiliUtil {
         try {
             String body = "";
             Request request = new Request.Builder()
-                    .url("http://api.bilibili.com/x/space/arc/search?mid=222103174&ps=5&pn=" + page)
+                    .url("http://api.bilibili.com/x/space/arc/search?mid=1311124&ps=5&pn=" + page)
                     .method("GET", null)
                     .build();
             Response response = client.newCall(request).execute();
 
-            System.out.println(response.body().string());
+//            System.out.println(response.body().string());
             if (response.body() != null) {
                 body = new String(response.body().bytes());
 
@@ -95,17 +97,19 @@ public class BiliUtil {
                 JsonElement element = jsonParser.parse(body);
 
                 if (element.isJsonObject()) {
-                    System.out.println(element);
+//                    System.out.println(element);
                     JsonObject jsonObject = element.getAsJsonObject();
 
                     JsonArray video_list = jsonObject
                             .get("data").getAsJsonObject()
+                            .get("list").getAsJsonObject()
                             .get("vlist").getAsJsonArray();
 
                     for (JsonElement jsonElement : video_list) {
                         JsonObject object = jsonElement.getAsJsonObject();
                         long time = TimeUnit.SECONDS.toMillis(object.get("created").getAsLong());
                         String url = "https://www.bilibili.com/video/" + object.get("bvid").getAsString();
+//                        System.out.println(url + " " + time);
                         temp_map.put(url, time);
                     }
                 }
