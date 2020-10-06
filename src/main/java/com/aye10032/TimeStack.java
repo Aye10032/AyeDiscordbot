@@ -3,8 +3,6 @@ package com.aye10032;
 import com.aye10032.util.BiliUtil;
 import net.dv8tion.jda.api.JDA;
 
-import javax.sql.rowset.JdbcRowSet;
-import java.sql.Time;
 import java.util.Map;
 
 /**
