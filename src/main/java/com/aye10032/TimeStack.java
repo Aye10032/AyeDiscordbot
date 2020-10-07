@@ -3,6 +3,8 @@ package com.aye10032;
 import com.aye10032.util.BiliUtil;
 import net.dv8tion.jda.api.JDA;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Map;
 
 /**
@@ -26,13 +28,15 @@ public class TimeStack extends Thread {
             try {
                 biliUtil.update();
                 map = biliUtil.getList_map();
-                System.out.println(map.size());
+                Date date = new Date();
+                SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+                System.out.println(format.format(date) + " " + map.size());
                 if (!map.isEmpty()) {
                     for (Map.Entry<String, Long> entry : map.entrySet()) {
                         jda.getTextChannelById(753968932519411784L).sendMessage(entry.getKey()).queue();
                     }
                 }
-                Thread.sleep(30 * 6000);
+                Thread.sleep(30 * 60 * 1000);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             } catch (NullPointerException e) {
