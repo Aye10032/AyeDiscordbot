@@ -84,7 +84,7 @@ public class BiliUtil {
         try {
             String body = "";
             Request request = new Request.Builder()
-                    .url("http://api.bilibili.com/x/space/arc/search?mid=62594335&ps=5&pn=" + page)
+                    .url("http://api.bilibili.com/x/space/arc/search?mid=1311124&ps=5&pn=" + page)
                     .method("GET", null)
                     .build();
             Response response = client.newCall(request).execute();

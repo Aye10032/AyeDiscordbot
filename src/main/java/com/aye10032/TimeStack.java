@@ -6,6 +6,7 @@ import net.dv8tion.jda.api.JDA;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Map;
+import java.util.Objects;
 
 /**
  * @Author Aye10032
@@ -32,9 +33,8 @@ public class TimeStack extends Thread {
                 SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
                 System.out.println(format.format(date) + " " + map.size());
                 if (!map.isEmpty()) {
-                    for (Map.Entry<String, Long> entry : map.entrySet()) {
-                        jda.getTextChannelById(753968932519411784L).sendMessage(entry.getKey()).queue();
-                    }
+                    for (Map.Entry<String, Long> entry : map.entrySet())
+                        Objects.requireNonNull(jda.getTextChannelById(751065044518830090L)).sendMessage(entry.getKey()).queue();
                 }
                 Thread.sleep(30 * 60 * 1000);
             } catch (InterruptedException e) {
