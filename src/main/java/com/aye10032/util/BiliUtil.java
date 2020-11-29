@@ -9,7 +9,6 @@ import okhttp3.Request;
 import okhttp3.Response;
 
 import java.io.IOException;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -24,7 +23,7 @@ public class BiliUtil {
 
     private Map<String, Long> list_map;
 
-    public static void main(String[] args) {
+/*    public static void main(String[] args) {
 //        Date date = new Date(TimeUnit.SECONDS.toMillis(1601732156));
 //        SimpleDateFormat ft = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
 //
@@ -37,7 +36,7 @@ public class BiliUtil {
         biliUtil.update();
         Map<String, Long> map = biliUtil.getList_map();
         System.out.println(map.size());
-    }
+    }*/
 
     public BiliUtil() {
         client = new OkHttpClient().newBuilder()
@@ -93,8 +92,7 @@ public class BiliUtil {
             if (response.body() != null) {
                 body = new String(response.body().bytes());
 
-                JsonParser jsonParser = new JsonParser();
-                JsonElement element = jsonParser.parse(body);
+                JsonElement element = JsonParser.parseString(body);
 
                 if (element.isJsonObject()) {
 //                    System.out.println(element);
@@ -114,7 +112,7 @@ public class BiliUtil {
                     }
                 }
             }
-        } catch (IOException e) {
+        } catch (IOException | IllegalStateException e) {
             e.printStackTrace();
         }
         return temp_map;

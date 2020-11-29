@@ -8,6 +8,8 @@ import java.util.Date;
 import java.util.Map;
 import java.util.Objects;
 
+import static java.lang.Thread.sleep;
+
 /**
  * @Author Aye10032
  * @Date Created in 9:58 10.6
@@ -36,11 +38,9 @@ public class TimeStack extends Thread {
                     for (Map.Entry<String, Long> entry : map.entrySet())
                         Objects.requireNonNull(jda.getTextChannelById(751065044518830090L)).sendMessage(entry.getKey()).queue();
                 }
-                Thread.sleep(30 * 60 * 1000);
-            } catch (InterruptedException e) {
+                sleep(30 * 60 * 1000);
+            } catch (InterruptedException | NullPointerException | IllegalArgumentException e) {
                 e.printStackTrace();
-            } catch (NullPointerException e) {
-//                e.printStackTrace();
             }
         }
     }
